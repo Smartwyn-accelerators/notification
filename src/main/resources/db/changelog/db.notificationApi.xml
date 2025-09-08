@@ -20,4 +20,12 @@
         </createTable>
     </changeSet>
 
+    <changeSet author="fastCode, Inc" id="0000-000040">
+        <addColumn tableName="notification">
+            <column name="data" type="jsonb">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

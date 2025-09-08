@@ -1,13 +1,17 @@
 package com.fastcode.notification.service;
 
-import com.fastcode.notification.repository.NotificationRepository;
 import com.fastcode.notification.entity.Notification;
+import com.fastcode.notification.entity.QNotification;
+import com.fastcode.notification.repository.NotificationRepository;
 import com.fastcode.notification.service.strategy.NotificationStrategy;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.querydsl.core.BooleanBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -19,13 +23,13 @@ public class NotificationService {
     @Autowired
     private Map<String, NotificationStrategy> notificationStrategies;
 
-    public Notification createNotification(String recipient, String message, String type) {
+    public Notification createNotification(String recipient, String message, String type, JsonNode data) {
         Notification notification = new Notification();
         notification.setRecipient(recipient);
         notification.setMessage(message);
         notification.setType(type);
         notification.setStatus("PENDING");
-        notification.setTimestamp(LocalDateTime.now());
+        notification.setData(data);
         return notificationRepository.save(notification);
     }
 
@@ -37,11 +41,25 @@ public class NotificationService {
         } else {
             notification.setStatus("FAILED");
         }
+        notification.setTimestamp(LocalDateTime.now());
         notificationRepository.save(notification);
     }
 
-    public List<Notification> getAllNotifications() {
-        return notificationRepository.findAll();
+    public Page<Notification> getAllNotifications(String type, String status, String recipient, Pageable pageable) {
+        QNotification notification = QNotification.notification;
+        BooleanBuilder builder = new BooleanBuilder();
+
+        if (type != null) {
+            builder.and(notification.type.eq(type));
+        }
+        if (status != null) {
+            builder.and(notification.status.eq(status));
+        }
+        if (recipient != null) {
+            builder.and(notification.recipient.eq(recipient));
+        }
+
+        return notificationRepository.findAll(builder, pageable);
     }
 }
 

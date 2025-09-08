@@ -1,9 +1,12 @@
 package com.fastcode.notification.dto;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 public class NotificationDto {
     private String recipient;
     private String message;
     private String type;
+    private JsonNode data;
 
     // Getters and setters
     public String getRecipient() {
@@ -28,6 +31,14 @@ public class NotificationDto {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public JsonNode getData() {
+        return data;
+    }
+
+    public void setData(JsonNode data) {
+        this.data = data;
     }
 }
 

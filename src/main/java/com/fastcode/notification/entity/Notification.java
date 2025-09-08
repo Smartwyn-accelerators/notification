@@ -1,8 +1,13 @@
 package com.fastcode.notification.entity;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import org.hibernate.annotations.ColumnTransformer;
+
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "notification")
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +17,11 @@ public class Notification {
     private String type; // EMAIL, SMS, SSE, etc.
     private String status; // SENT, PENDING, FAILED
     private LocalDateTime timestamp;
+
+    @Convert(converter = JsonNodeConverter.class)
+    @Column(name = "data", columnDefinition = "jsonb", nullable = true)
+    @ColumnTransformer(write = "?::jsonb")
+    private JsonNode data; // Flexible JSON data field
 
     // Getters and setters
     public Long getId() {
@@ -60,6 +70,13 @@ public class Notification {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public JsonNode getData() {
+        return data;
+    }
+    public void setData(JsonNode data) {
+        this.data = data;
     }
 }
 
