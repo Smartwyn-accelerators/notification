@@ -1,0 +1,95 @@
+<div class="div-f6f6122044ba4" name="divf6f6122044ba4" id="f6f6122044ba4">
+  <mat-toolbar class="toolbar-cb216306fbd94" name="toolbarcb216306fbd94">
+    <mat-toolbar-row class="toolbarRow-de9a8caaa56940">
+      <div class="div-79cc25270c054" name="div79cc25270c054" id="79cc25270c054">
+        <div class="div-d9dd3fe665c34" name="divd9dd3fe665c34" id="d9dd3fe665c34">
+          <div
+            routerLink=""
+            class="div-15582a967c534"
+            name="div15582a967c534"
+            id="15582a967c534"
+          ></div>
+          <span
+            class="span-cb785372c1184 spancb785372c1184 headings-custom-stylescb785372c1184"
+            fxFlexAlign="auto"
+            id="cb785372c1184"
+            style="vertical-align: text-top"
+            >Timesheet
+          </span>
+        </div>
+        <div class="div-20dd095f2d844" name="div20dd095f2d844" id="20dd095f2d844">
+          <div class="div-173a0eb929ee4" name="div173a0eb929ee4" id="173a0eb929ee4">
+            <button
+              [matMenuTriggerFor]="notificationMenu"
+              type="button"
+              class="button-2be2db2df83d4 custom-btnIcon-2be2db2df83d4"
+              name="button2be2db2df83d4"
+              id="2be2db2df83d4"
+              mat-icon-button
+              color="primary"
+              (click)="resetNofificationView()"
+            >
+              <mat-icon
+                [matBadge]="notificationCount"
+                [matBadgeHidden]="notificationCount < 1"
+                [matBadgeOverlap]="true"
+                matBadgePosition="after"
+                matBadgeColor="warn"
+                class="button-btnIcon-2be2db2df83d4 custom-btnIcon-2be2db2df83d4"
+                id="2be2db2df83d4"
+                color="primary"
+                >
+                <!-- Removed matBadgeSize="small" as it's deprecated -->
+                notifications
+              </mat-icon>
+            </button>
+            <button
+              [matMenuTriggerFor]="userMenu"
+              type="button"
+              class="button-8927480a1cc44 custom-btnIcon-8927480a1cc44"
+              name="button8927480a1cc44"
+              id="8927480a1cc44"
+              mat-button
+              color="primary"
+              >
+              {{ username }}
+              <mat-icon
+              class="button-btnIcon-8927480a1cc44 custom-btnIcon-8927480a1cc44"
+              id="8927480a1cc44"
+              color="default"
+              >
+              keyboard_arrow_down
+            </mat-icon>
+          </button>
+          <mat-menu
+          #notificationMenu="matMenu"
+          class="matMenu-4ea66602f0ea4"
+              [hasBackdrop]="true"
+              xPosition="before"
+              yPosition="below"
+            >
+              <div style="width: 100%">
+                <span
+                  style="font-size: 16px; padding: 5px 0 5px 15px; display: block; font-weight: 500"
+                  >Notifications</span
+                >
+                <mat-divider style="width: 350px"></mat-divider>
+                @for (item of notifications; track item) {
+                  <button mat-menu-item>
+                    <app-cstm-notification-content [item]="item"></app-cstm-notification-content>
+                  </button>
+                }
+              </div>
+            </mat-menu>
+            <mat-menu #userMenu="matMenu" [hasBackdrop]="true" xPosition="after" yPosition="below">
+              <button mat-menu-item >
+                <mat-icon>add</mat-icon>
+                Create notification
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>
